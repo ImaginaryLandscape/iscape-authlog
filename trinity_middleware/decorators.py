@@ -1,6 +1,6 @@
-from django.conf import settings
 from datetime import datetime, timedelta
 from trinity_middleware.models import Access
+import trinity_middleware
 
 def hide_passwd(key, value):
     if key == 'password':
@@ -59,17 +59,29 @@ def check_request(request, login_unsuccessful):
     
     if login_unsuccessful:
         print "BAD LOGIN"
+        if trinity_middleware.AUTHLOG_SAVE_BAD_LOGINS:
+	    user = 'None'
+	    access = Access.objects.create(
+	       user = user,
+	       user_agent = ua,
+	       ip_address = ip,
+	       get_data = get,
+	       post_data = post, 
+	       http_accept = accept, 
+	       path_info = path, 
+	    )
         return False 
     else:
         print "GOOD LOGIN"
-        user = request.user
-        access = Access.objects.create(
-           user = user.username,
-           user_agent = ua,
-           ip_address = ip,
-           get_data = get,
-           post_data = post, 
-           http_accept = accept, 
-           path_info = path, 
-        )
+        if trinity_middleware.AUTHLOG_SAVE_GOOD_LOGINS:
+            user = request.user
+            access = Access.objects.create(
+               user = user.username,
+               user_agent = ua,
+               ip_address = ip,
+               get_data = get,
+               post_data = post, 
+               http_accept = accept, 
+               path_info = path, 
+            )
         return True
