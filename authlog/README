@@ -1,4 +1,25 @@
 
 
-'authlog.logadminmiddleware.LogAdminMiddleware',
+1) Add authlog to installed apps
+INSTALLED_APPS = (
+   ...
+   'authlog',
+   ...
+)
+
+
+2) Add authlog to near beginning of middlware
+MIDDLEWARE_CLASSES = (
+    'authlog.logadminmiddleware.LogAdminMiddleware',
+    ....
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+
+3) ./manage.py syncdb 
+
 
