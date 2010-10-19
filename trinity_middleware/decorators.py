@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
-from trinity_middleware.models import Access
-import trinity_middleware
+from authlog.models import Access
+import authlog
 import logging
 
-if trinity_middleware.AUTHLOG_LOG_TO_FILE:
-    log = logging.getLogger(trinity_middleware.AUTHLOG_LOGGER)
+if authlog.AUTHLOG_LOG_TO_FILE:
+    log = logging.getLogger(authlog.AUTHLOG_LOGGER)
     log.info('AUTHLOG: BEGIN LOG')
-    log.info('Using version ' + trinity_middleware.get_version())   
+    log.info('Using version ' + authlog.get_version())   
  
 
 def hide_passwd(key, value):
@@ -62,7 +62,7 @@ def check_request(request, login_unsuccessful):
 
 	user = 'None'
         print "BAD LOGIN"
-        if trinity_middleware.AUTHLOG_SAVE_BAD_LOGINS:
+        if authlog.AUTHLOG_SAVE_BAD_LOGINS:
 	    access = Access.objects.create(
 	       user = user,
 	       user_agent = ua,
@@ -78,7 +78,7 @@ def check_request(request, login_unsuccessful):
         print "GOOD LOGIN"
         user = request.user
 
-        if trinity_middleware.AUTHLOG_SAVE_GOOD_LOGINS:
+        if authlog.AUTHLOG_SAVE_GOOD_LOGINS:
             access = Access.objects.create(
                user = user.username,
                user_agent = ua,
@@ -90,7 +90,7 @@ def check_request(request, login_unsuccessful):
             )
         return_status=True
 
-    if trinity_middleware.AUTHLOG_LOG_TO_FILE:
+    if authlog.AUTHLOG_LOG_TO_FILE:
         log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
 
     return return_status

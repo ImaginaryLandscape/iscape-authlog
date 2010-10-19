@@ -1,4 +1,4 @@
 
 
-'trinity_middleware.logadminmiddleware.LogAdminMiddleware',
+'authlog.logadminmiddleware.LogAdminMiddleware',
 

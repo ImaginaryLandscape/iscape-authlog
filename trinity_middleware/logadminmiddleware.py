@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from trinity_middleware.decorators import watch_login
+from authlog.decorators import watch_login
 
 class LogAdminMiddleware(object):
 

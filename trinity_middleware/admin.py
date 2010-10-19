@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trinity_middleware.models import Access
+from authlog.models import Access
 
 from django import forms
 
