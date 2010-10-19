@@ -1,6 +1,14 @@
-class LogAdminMiddleware:
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from trinity_middleware.decorators import watch_login
 
-    def process_response(self, request, response):
-        print dir(response)
-        print response.headers
-        return None
+class LogAdminMiddleware(object):
+
+    def __init__(self, *args, **kwargs):
+        super(LogAdminMiddleware, self).__init__(*args, **kwargs)
+
+        # watch the admin login page
+        admin.site.login = watch_login(admin.site.login)
+
+        # and the regular auth login page
+        auth_views.login = watch_login(auth_views.login)
