@@ -1,4 +1,4 @@
-
+Requires Django 1.0+
 
 1) Add authlog to installed apps
 INSTALLED_APPS = (
