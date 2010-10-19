@@ -1,6 +1,13 @@
 from datetime import datetime, timedelta
 from trinity_middleware.models import Access
 import trinity_middleware
+import logging
+
+if trinity_middleware.AUTHLOG_LOG_TO_FILE:
+    log = logging.getLogger(trinity_middleware.AUTHLOG_LOGGER)
+    log.info('AUTHLOG: BEGIN LOG')
+    log.info('Using version ' + trinity_middleware.get_version())   
+ 
 
 def hide_passwd(key, value):
     if key == 'password':
@@ -17,13 +24,6 @@ def watch_login(func):
     """
 
     def decorated_login(request, *args, **kwargs):
-        # share some useful information
-        #if func.__name__ != 'decorated_login' and VERBOSE:
-            #log.info('AXES: Calling decorated function: %s' % func.__name__)
-            #if args: log.info('args: %s' % args)
-            #if kwargs: log.info('kwargs: %s' % kwargs)
-            #pass
-        # call the login function
         response = func(request, *args, **kwargs)
 
         if func.__name__ == 'decorated_login':
@@ -58,9 +58,11 @@ def check_request(request, login_unsuccessful):
     post = query2str(request.POST.items())
     
     if login_unsuccessful:
+        login_status = "Fail" 
+
+	user = 'None'
         print "BAD LOGIN"
         if trinity_middleware.AUTHLOG_SAVE_BAD_LOGINS:
-	    user = 'None'
 	    access = Access.objects.create(
 	       user = user,
 	       user_agent = ua,
@@ -70,11 +72,13 @@ def check_request(request, login_unsuccessful):
 	       http_accept = accept, 
 	       path_info = path, 
 	    )
-        return False 
+        return_status = False
     else:
+        login_status = "Pass" 
         print "GOOD LOGIN"
+        user = request.user
+
         if trinity_middleware.AUTHLOG_SAVE_GOOD_LOGINS:
-            user = request.user
             access = Access.objects.create(
                user = user.username,
                user_agent = ua,
@@ -84,4 +88,9 @@ def check_request(request, login_unsuccessful):
                http_accept = accept, 
                path_info = path, 
             )
-        return True
+        return_status=True
+
+    if trinity_middleware.AUTHLOG_LOG_TO_FILE:
+        log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
+
+    return return_status
