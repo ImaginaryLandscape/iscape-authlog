@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse, NoReverseMatch
-from authlog.models import Access
+from authlog  import models 
 import authlog
 
 if authlog.AUTHLOG_LOG_TO_FILE:
@@ -18,6 +18,10 @@ def hide_passwd(key, value):
 
 def query2str(items):
     return '\n'.join(['%s=%s' % (hide_passwd(k, v)) for k,v in items ])
+
+def get_tracked_models():
+    return [ tuple([ i.lower() for i in j.split('.') ]) for j in authlog.AUTHLOG_TRACKED_MODELS ]
+       
 
 def watch_login(func):
     """
@@ -50,61 +54,67 @@ def watch_login(func):
     return decorated_login
 
 
-def watch_view(func, opts={}):
+def watch_view(func):
 
-    def decorated_view(request, *args, **kwargs):
-        response = func(request, *args, **kwargs)
+    def decorated_view(request_func, *args, **kwargs):
+        response = func(request_func, *args, **kwargs)
     
         if func.__name__ == 'decorated_view':
             return response
 
-        print "GOT HERE "
-	klass = opts.get('admin', None)
-	#if klass:
-	#    print vars(klass)
-	#    print dir(klass) 
-	#print (args, kwargs)
         try:
-            current_path = args[0].path_info
-        except (AttributeError, IndexError): 
-            current_path = ''  # should never get here
+            request = args[0]
+        except: 
+            request = None   # should never get here
+            user, ip, path, accept, ua, get, post = ('None','', '<unknown>', '<unknown>', '<unknown>', '','') 
+            current_path = '/'
+        else:
+            current_path = request.path_info
+            user = request.user
+            ip = request.META.get('REMOTE_ADDR', '')[:255]
+            path = request.META.get('PATH_INFO', '<unknown>')[:255]
+            accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
+            ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
+            get = query2str(request.GET.items())
+            post = query2str(request.POST.items())
 
-
-        tracked_models = [('authlog','access'),('asdf','asdf')]
+        tracked_models = get_tracked_models() 
         tracked_urls = []
         for tmodel in tracked_models:
             try:
                 app = tmodel[0]
                 model = tmodel[1]
             except IndexError:
-                pass
+                pass # should only get here if someone does not specify correct tracked models
             else:
                 try:
-                    tracked_urls = tracked_urls + [
-                      reverse('admin:%s_%s_change' % (app, model), args=(args[1],)),
-                      reverse('admin:%s_%s_delete' % (app, model), args=(args[1],)),
-                      reverse('admin:%s_%s_history' % (app, model), args=(args[1],)),
-                    ]
-                except NoReverseMatch:
-                    pass
+                    first_arg = args[1]
+                except IndexError:
+                    first_arg = None
 
-        print tracked_urls
+                try:
+                    if first_arg:
+                        tracked_urls = tracked_urls + [
+                          reverse('admin:%s_%s_change' % (app, model), args=(first_arg,)),
+                          reverse('admin:%s_%s_delete' % (app, model), args=(first_arg,)),
+                          reverse('admin:%s_%s_history' % (app, model), args=(first_arg,)),
+                        ]
+                    else:
+                        tracked_urls = tracked_urls + [
+                          reverse('admin:%s_%s_changelist' % (app, model),),
+                          reverse('admin:%s_%s_add' % (app, model),),
+                        ]
+
+                except NoReverseMatch:
+                    pass  # should only get here if tracked_models is wrong (no view associated)
+
         if current_path in tracked_urls:
-            print "TRACK THIS" 
+            models.AccessPage.objects.create(
+               user = user, user_agent = ua, ip_address = ip,
+               get_data = get, post_data = post, http_accept = accept, 
+               path_info = path, 
+            ) 
        	
-        #print func
-        #print dir(response)
-        #print type(response)
-	#print vars(response)
-	#print response.items()
-	#from django.contrib import admin
-	#s = admin.site
-	#print s
-	#print vars(s)
-	#print dir(s)
-	#print s._registry
-	#import inspect
-        #print inspect.getmembers(response)
 	return response
 
     return decorated_view
@@ -125,7 +135,7 @@ def check_request(request, login_unsuccessful):
 	user = 'None'
         print "BAD LOGIN"
         if authlog.AUTHLOG_SAVE_BAD_LOGINS:
-	    access = Access.objects.create(
+	    access = models.Access.objects.create(
 	       user = user,
 	       user_agent = ua,
 	       ip_address = ip,
@@ -141,7 +151,7 @@ def check_request(request, login_unsuccessful):
         user = request.user
 
         if authlog.AUTHLOG_SAVE_GOOD_LOGINS:
-            access = Access.objects.create(
+            access = models.Access.objects.create(
                user = user.username,
                user_agent = ua,
                ip_address = ip,

@@ -14,6 +14,6 @@ class LogAdminMiddleware(object):
         # and the regular auth login page
         auth_views.login = watch_login(auth_views.login)
 
-        #admin.options.change_view = watch_view(admin.options.change_view)
-        ModelAdmin.change_view = watch_view(ModelAdmin.change_view,
-					opts={'admin': ModelAdmin})
+        ModelAdmin.change_view = watch_view(ModelAdmin.change_view,)
+        ModelAdmin.changelist_view = watch_view(ModelAdmin.changelist_view,)
+        ModelAdmin.add_view = watch_view(ModelAdmin.add_view,)

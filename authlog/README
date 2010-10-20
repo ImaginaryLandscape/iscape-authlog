@@ -1,6 +1,6 @@
 Requires Django 1.0+
 
-1) Add authlog to installed apps
+1) Add authlog to installed apps in settings.py
 INSTALLED_APPS = (
    ...
    'authlog',
@@ -8,7 +8,7 @@ INSTALLED_APPS = (
 )
 
 
-2) Add authlog to near beginning of middlware
+2) Add authlog to near beginning of middlware in settings.py
 MIDDLEWARE_CLASSES = (
     'authlog.logadminmiddleware.LogAdminMiddleware',
     ....
@@ -19,7 +19,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+3) Configure AUTHLOG in settings.py.  Sane defaults exist. 
 
-3) ./manage.py syncdb 
+AUTHLOG_SAVE_GOOD_LOGINS = True or False (default True)
+  Specify whether to log good logins 
 
+AUTHLOG_SAVE_BAD_LOGINS = True or False (default False) 
+  Specify whether to log bad logins (login attempts)
 
+AUTHLOG_LOG_TO_FILE = True or False (default False) 
+  Specify whether to log to a file via python logging
+
+AUTHLOG_LOGDIR = path to log dir (default none - current dir) 
+  If LOG_TO_FILE set, specify what dir the file should log to
+
+AUTHLOG_FILENAME = log file name (default authlog.log) 
+  If LOG_TO_FILE set, specify the log file name
+
+AUTHLOG_TRACKED_MODELS = default( ['authlog.Access','authlog.AccessPage'] ) 
+  Specify which models and apps to log views of.  Must be a list of 'app.model' names
+
+4) ./manage.py syncdb
+ 
