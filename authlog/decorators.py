@@ -1,7 +1,8 @@
+import logging
 from datetime import datetime, timedelta
+from django.core.urlresolvers import reverse, NoReverseMatch
 from authlog.models import Access
 import authlog
-import logging
 
 if authlog.AUTHLOG_LOG_TO_FILE:
     log = logging.getLogger(authlog.AUTHLOG_LOGGER)
@@ -47,6 +48,67 @@ def watch_login(func):
         return response
 
     return decorated_login
+
+
+def watch_view(func, opts={}):
+
+    def decorated_view(request, *args, **kwargs):
+        response = func(request, *args, **kwargs)
+    
+        if func.__name__ == 'decorated_view':
+            return response
+
+        print "GOT HERE "
+	klass = opts.get('admin', None)
+	#if klass:
+	#    print vars(klass)
+	#    print dir(klass) 
+	#print (args, kwargs)
+        try:
+            current_path = args[0].path_info
+        except (AttributeError, IndexError): 
+            current_path = ''  # should never get here
+
+
+        tracked_models = [('authlog','access'),('asdf','asdf')]
+        tracked_urls = []
+        for tmodel in tracked_models:
+            try:
+                app = tmodel[0]
+                model = tmodel[1]
+            except IndexError:
+                pass
+            else:
+                try:
+                    tracked_urls = tracked_urls + [
+                      reverse('admin:%s_%s_change' % (app, model), args=(args[1],)),
+                      reverse('admin:%s_%s_delete' % (app, model), args=(args[1],)),
+                      reverse('admin:%s_%s_history' % (app, model), args=(args[1],)),
+                    ]
+                except NoReverseMatch:
+                    pass
+
+        print tracked_urls
+        if current_path in tracked_urls:
+            print "TRACK THIS" 
+       	
+        #print func
+        #print dir(response)
+        #print type(response)
+	#print vars(response)
+	#print response.items()
+	#from django.contrib import admin
+	#s = admin.site
+	#print s
+	#print vars(s)
+	#print dir(s)
+	#print s._registry
+	#import inspect
+        #print inspect.getmembers(response)
+	return response
+
+    return decorated_view
+
 
 def check_request(request, login_unsuccessful):
     ip = request.META.get('REMOTE_ADDR', '')[:255]
@@ -94,3 +156,6 @@ def check_request(request, login_unsuccessful):
         log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
 
     return return_status
+
+
+

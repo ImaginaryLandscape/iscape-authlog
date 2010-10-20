@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from authlog.decorators import watch_login
+from django.contrib.admin.sites import ModelAdmin
+from authlog.decorators import watch_login, watch_view
 
 class LogAdminMiddleware(object):
 
@@ -12,3 +13,7 @@ class LogAdminMiddleware(object):
 
         # and the regular auth login page
         auth_views.login = watch_login(auth_views.login)
+
+        #admin.options.change_view = watch_view(admin.options.change_view)
+        ModelAdmin.change_view = watch_view(ModelAdmin.change_view,
+					opts={'admin': ModelAdmin})
