@@ -18,8 +18,7 @@ AUTHLOG_LOGDIR=getattr(settings, 'AUTHLOG_LOGDIR', '')
 AUTHLOG_FILENAME=getattr(settings, 'AUTHLOG_FILENAME', 'authlog.log')
 AUTHLOG_LOGGER=getattr(settings, 'AUTHLOG_LOGGER', 'authlog.watch_login')
 
-
-AUTHLOG_TRACKED_MODELS = ['authlog.Access','authlog.AccessPage']
+AUTHLOG_TRACKED_MODELS=getattr(settings,'AUTHLOG_TRACKED_MODELS',['authlog.Access','authlog.AccessPage'])
 
 if AUTHLOG_LOG_TO_FILE:
     LOGFILE = os.path.join(AUTHLOG_LOGDIR, AUTHLOG_FILENAME)
