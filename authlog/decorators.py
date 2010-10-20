@@ -110,7 +110,7 @@ def watch_view(func):
 
         if current_path in tracked_urls:
             models.AccessPage.objects.create(
-               user = user, user_agent = ua, ip_address = ip,
+               user = user.username, user_agent = ua, ip_address = ip,
                get_data = get, post_data = post, http_accept = accept, 
                path_info = path, 
             ) 
