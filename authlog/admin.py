@@ -39,7 +39,7 @@ class ReadOnlyAdminFields(object):
 
 
 class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','login_time', 'ip_address', 'user_agent', 'path_info', )
+    list_display = ('user','login_time', 'ip_address','path_info', )
     list_filter = ['user','login_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'login_time'
@@ -67,7 +67,7 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
 
 class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','access_time', 'ip_address', 'user_agent', 'path_info', )
+    list_display = ('user','access_time', 'ip_address', 'path_info', )
     list_filter = ['user','access_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'access_time'
