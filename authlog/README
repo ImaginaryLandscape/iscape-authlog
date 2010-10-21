@@ -41,8 +41,14 @@ AUTHLOG_LOGDIR = path to log dir (default none - current dir)
 AUTHLOG_FILENAME = log file name (default authlog.log) 
   If LOG_TO_FILE set, specify the log file name
 
-AUTHLOG_TRACKED_MODELS = default( ['authlog.Access','authlog.AccessPage'] ) 
+AUTHLOG_TRACKED_MODELS = (default is ['authlog.Access','authlog.AccessPage'] ) 
   Specify which models and apps to log views of.  Must be a list of 'app.model' names
+
+AUTHLOG_SAVE_LOGIN_POST_DATA = True or False (default True)
+  Specify whether to save http POST data for logins to the db
+
+AUTHLOG_SAVE_VIEW_POST_DATA = True or False (default True)
+  Specify whether to save http POST data for page views to the db
 
 4) ./manage.py syncdb
 

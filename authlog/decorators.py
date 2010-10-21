@@ -77,6 +77,9 @@ def watch_view(func):
             ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
             get = query2str(request.GET.items())
             post = query2str(request.POST.items())
+ 
+        if request.method == 'POST' and not authlog.AUTHLOG_SAVE_VIEW_POST_DATA:
+            post = "POST data was submitted"
 
         tracked_models = get_tracked_models() 
         tracked_urls = []
@@ -127,7 +130,11 @@ def check_request(request, login_unsuccessful):
     ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
     time = datetime.now()
     get = query2str(request.GET.items())
-    post = query2str(request.POST.items())
+
+    if authlog.AUTHLOG_SAVE_LOGIN_POST_DATA:
+        post = query2str(request.POST.items())
+    else:
+        post = 'POST data was submitted'
     
     if login_unsuccessful:
         login_status = "Fail" 
