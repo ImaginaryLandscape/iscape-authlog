@@ -68,7 +68,7 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
 class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
     list_display = ('user','access_time', 'ip_address', 'user_agent', 'path_info', )
-    list_filter = ['access_time', 'ip_address', 'path_info']
+    list_filter = ['user','access_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'access_time'
     readonly = ['user','ip_address', 'user_agent', 'path_info','get_data','post_data','http_accept',]
