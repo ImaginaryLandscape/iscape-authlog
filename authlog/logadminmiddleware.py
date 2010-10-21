@@ -17,3 +17,4 @@ class LogAdminMiddleware(object):
         ModelAdmin.change_view = watch_view(ModelAdmin.change_view,)
         ModelAdmin.changelist_view = watch_view(ModelAdmin.changelist_view,)
         ModelAdmin.add_view = watch_view(ModelAdmin.add_view,)
+        ModelAdmin.delete_view = watch_view(ModelAdmin.delete_view,)
