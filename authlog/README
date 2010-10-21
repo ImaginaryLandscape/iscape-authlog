@@ -45,4 +45,14 @@ AUTHLOG_TRACKED_MODELS = default( ['authlog.Access','authlog.AccessPage'] )
   Specify which models and apps to log views of.  Must be a list of 'app.model' names
 
 4) ./manage.py syncdb
+
+
+
+MANAGEMENT COMMANDS
+
+These two commands dump the Access and AccessPage tables stdout as CSV
+manage.py authlog_dumpview 
+manage.py authlog_dumplogin
+
+
  
