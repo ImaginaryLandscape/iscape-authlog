@@ -39,7 +39,7 @@ class ReadOnlyAdminFields(object):
 
 
 class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','login_time', 'ip_address','path_info', )
+    list_display = ('user','login_time', 'ip_address','get_path_info_link', )
     list_filter = ['user','login_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'login_time'
@@ -65,9 +65,14 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    def get_path_info_link(self, obj):
+        return '<a href="%s%s">%s</a>' % ('', obj.path_info, obj.path_info)
+    get_path_info_link.allow_tags = True
+    get_path_info_link.short_description = 'Path'
+
 
 class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','access_time', 'ip_address', 'path_info', )
+    list_display = ('user','access_time', 'ip_address', 'get_path_info_link', )
     list_filter = ['user','access_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'access_time'
@@ -92,6 +97,11 @@ class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    def get_path_info_link(self, obj):
+        return '<a href="%s%s">%s</a>' % ('', obj.path_info, obj.path_info)
+    get_path_info_link.allow_tags = True
+    get_path_info_link.short_description = 'Path'
 
 
 admin.site.register(Access, AccessAdmin)
