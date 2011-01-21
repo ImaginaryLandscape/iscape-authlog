@@ -9,11 +9,10 @@ setup(
         url = "http://www.imagescape.com",
 
         packages = find_packages('.'),
-        package_dir = {'authlog':'.'},
-        data_files=[],
         include_package_data=True,
 
         description = "Log Django Authentications and Admin page visits.",
+        long_description ="""Log Django Authentications and Admin page visits.  See README for more info.""",
         install_requires=[],
         zip_safe=False,
         classifiers = [
