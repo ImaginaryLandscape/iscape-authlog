@@ -4,10 +4,9 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from authlog  import models 
 import authlog
 
-if authlog.AUTHLOG_LOG_TO_FILE:
-    log = logging.getLogger(authlog.AUTHLOG_LOGGER)
-    log.info('AUTHLOG: BEGIN LOG')
-    log.info('Using version ' + authlog.get_version())   
+log = logging.getLogger(authlog.AUTHLOG_LOGGER)
+log.info('AUTHLOG: BEGIN LOG')
+log.info('Using version ' + authlog.get_version())   
 
 
 def hide_passwd(key, value):
@@ -103,8 +102,7 @@ def login_check_request(request, login_unsuccessful):
             )
         return_status=True
 
-    if authlog.AUTHLOG_LOG_TO_FILE:
-        log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
+    log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
 
     return return_status
 

@@ -32,6 +32,22 @@ AUTHLOG_SAVE_GOOD_LOGINS = True or False (default True)
 AUTHLOG_SAVE_BAD_LOGINS = True or False (default False) 
   Specify whether to log bad logins (login attempts)
 
+AUTHLOG_TRACKED_MODELS = (default is ['authlog.Access','authlog.AccessPage'] ) 
+  Specify which models and apps to log views of.  Must be a list of 'app.model' names
+
+AUTHLOG_SAVE_LOGIN_POST_DATA = True or False (default True)
+  Specify whether to save http POST data for logins to the db
+
+AUTHLOG_SAVE_VIEW_POST_DATA = True or False (default True)
+  Specify whether to save http POST data for page views to the db
+
+
+
+# NOTE: These settings offer a simple interface to start logging.
+# Alternatively, using Django 1.3, you can simple define a logger 
+# called authlog.watch_login within settings.py and it will
+# start logging to your custom logger. 
+
 AUTHLOG_LOG_TO_FILE = True or False (default False) 
   Specify whether to log to a file via python logging
 
@@ -41,14 +57,7 @@ AUTHLOG_LOGDIR = path to log dir (default none - current dir)
 AUTHLOG_FILENAME = log file name (default authlog.log) 
   If LOG_TO_FILE set, specify the log file name
 
-AUTHLOG_TRACKED_MODELS = (default is ['authlog.Access','authlog.AccessPage'] ) 
-  Specify which models and apps to log views of.  Must be a list of 'app.model' names
 
-AUTHLOG_SAVE_LOGIN_POST_DATA = True or False (default True)
-  Specify whether to save http POST data for logins to the db
-
-AUTHLOG_SAVE_VIEW_POST_DATA = True or False (default True)
-  Specify whether to save http POST data for page views to the db
 
 4) ./manage.py syncdb
 

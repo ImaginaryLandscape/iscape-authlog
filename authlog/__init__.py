@@ -23,6 +23,7 @@ AUTHLOG_TRACKED_MODELS=getattr(settings,'AUTHLOG_TRACKED_MODELS',['authlog.Acces
 AUTHLOG_SAVE_LOGIN_POST_DATA=getattr(settings,'AUTHLOG_SAVE_LOGIN_POST_DATA',True) 
 AUTHLOG_SAVE_VIEW_POST_DATA=getattr(settings,'AUTHLOG_SAVE_VIEW_POST_DATA',True)
 
+
 if AUTHLOG_LOG_TO_FILE:
     LOGFILE = os.path.join(AUTHLOG_LOGDIR, AUTHLOG_FILENAME)
 
@@ -43,4 +44,6 @@ if AUTHLOG_LOG_TO_FILE:
     fileLog.setFormatter(formatter)
 
     # add the handler to the root logger
-    logging.getLogger('').addHandler(fileLog)
+    #logging.getLogger('').addHandler(fileLog)
+
+
