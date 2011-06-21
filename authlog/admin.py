@@ -43,7 +43,7 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
     list_filter = ['user','login_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'login_time'
-    readonly = ['user','ip_address', 'user_agent', 'path_info','get_data','post_data','http_accept',]
+    readonly = ['user','ip_address', 'ip_forward', 'user_agent', 'path_info','get_data','post_data','http_accept',]
     fieldsets = (
         (None, {
             'fields': ('user','path_info',)
