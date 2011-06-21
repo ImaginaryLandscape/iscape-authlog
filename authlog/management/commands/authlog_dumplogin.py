@@ -4,7 +4,7 @@ import unicodedata
 from django.core.management.base import BaseCommand, CommandError
 from authlog.models import Access
 
-CSV_HEADERS=['login_time', 'ip_address', 'user', 'path_info', 'user_agent',
+CSV_HEADERS=['login_time', 'ip_address', 'ip_forward', 'user', 'path_info', 'user_agent',
              'get_data', 'post_data', 'http_accept', ]
 
 class Command(BaseCommand):
@@ -22,6 +22,7 @@ class Command(BaseCommand):
             csv_writer.writerow([
                 record.login_time,                                
                 self.safe_unicode(record.ip_address),
+                self.safe_unicode(record.ip_forward),
                 self.safe_unicode(record.user),
                 self.safe_unicode(record.path_info),
                 self.safe_unicode(record.user_agent),
@@ -29,4 +30,3 @@ class Command(BaseCommand):
                 self.safe_unicode(record.post_data),
                 self.safe_unicode(record.http_accept),
             ])
-
