@@ -72,11 +72,12 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
 
 class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','access_time', 'ip_address', 'get_path_info_link','action_type', )
+    list_display = ('user','access_time', 'ip_address', 'ip_forward', 'get_path_info_link','action_type', )
     list_filter = ['user','access_time', 'ip_address', 'action_type',]
-    search_fields = ['user','ip_address', 'user_agent', 'path_info']
+    search_fields = ['user','ip_address', 'ip_forward', 'user_agent', 'path_info']
     date_hierarchy = 'access_time'
-    readonly = ['user','ip_address', 'user_agent', 'path_info','get_data','post_data','http_accept','action_type']
+    readonly = ['user','ip_address', 'ip_forward', 'user_agent',
+                'path_info','get_data','post_data','http_accept','action_type']
     fieldsets = (
         (None, {
             'fields': ('user','path_info','action_type',)
@@ -85,7 +86,7 @@ class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
             'fields': ('get_data', 'post_data')
         }),
         ('Meta Data', {
-            'fields': ('user_agent', 'ip_address', 'http_accept')
+            'fields': ('user_agent', 'ip_address', 'ip_forward', 'http_accept')
         })
     )
 
