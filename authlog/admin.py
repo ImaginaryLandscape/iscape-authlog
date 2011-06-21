@@ -39,7 +39,7 @@ class ReadOnlyAdminFields(object):
 
 
 class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','login_time', 'ip_address','get_path_info_link', )
+    list_display = ('user','login_time', 'ip_address', 'ip_forward', 'get_path_info_link', )
     list_filter = ['user','login_time', 'ip_address', ]
     search_fields = ['user','ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'login_time'
@@ -52,7 +52,7 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
             'fields': ('get_data', 'post_data')
         }),
         ('Meta Data', {
-            'fields': ('user_agent', 'ip_address', 'http_accept')
+            'fields': ('user_agent', 'ip_address', 'ip_forward', 'http_accept')
         })
     )
 
