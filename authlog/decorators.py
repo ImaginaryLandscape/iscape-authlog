@@ -56,6 +56,7 @@ def watch_login(func):
 
 def login_check_request(request, login_unsuccessful):
     ip = request.META.get('REMOTE_ADDR', '')[:255]
+    ip_forward = request.META.get('X-FORWARDED-FOR','')[:255]
     path = request.META.get('PATH_INFO', '<unknown>')[:255]
     accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
     ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
@@ -77,6 +78,7 @@ def login_check_request(request, login_unsuccessful):
 	       user = user,
 	       user_agent = ua,
 	       ip_address = ip,
+               ip_forward = ip_forward,
 	       get_data = get,
 	       post_data = post, 
 	       http_accept = accept, 
@@ -93,6 +95,7 @@ def login_check_request(request, login_unsuccessful):
                user = user.username,
                user_agent = ua,
                ip_address = ip,
+               ip_forward = ip_forward,
                get_data = get,
                post_data = post, 
                http_accept = accept, 
@@ -137,6 +140,7 @@ def watch_view(func):
             current_path = request.path_info
             user = request.user
             ip = request.META.get('REMOTE_ADDR', '')[:255]
+            ip_forward = request.META.get('X-FORWARDED-FOR','')[:255]
             path = request.META.get('PATH_INFO', '<unknown>')[:255]
             accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
             ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
@@ -198,7 +202,7 @@ def watch_view(func):
 
         if action.is_complete():
             models.AccessPage.objects.create(
-               user = user.username, user_agent = ua, ip_address = ip,
+               user = user.username, user_agent = ua, ip_address = ip, ip_forward = ip_forward,
                get_data = get, post_data = post, http_accept = accept, 
                path_info = action.url, action_type=action.atype,
             ) 
