@@ -102,7 +102,7 @@ def login_check_request(request, login_unsuccessful):
             )
         return_status=True
 
-    log.info('AUTHLOG: Login %s : ip : %s : path : %s : user : %s ' % (login_status, ip, path, user ) )
+    log.info('AUTHLOG: Login %s : ip : %s : ip_forward : %s : path : %s : user : %s ' % (login_status, ip, ip_forward or "None" , path, user ) )
 
     return return_status
 
