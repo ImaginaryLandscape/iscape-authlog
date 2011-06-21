@@ -4,7 +4,7 @@ import unicodedata
 from django.core.management.base import BaseCommand, CommandError
 from authlog.models import AccessPage
 
-CSV_HEADERS=['login_time', 'ip_address', ip_forward','user', 'path_info', 'user_agent',
+CSV_HEADERS=['login_time', 'ip_address', 'ip_forward','user', 'path_info', 'user_agent',
              'get_data', 'post_data', 'http_accept', ]
 
 class Command(BaseCommand):
