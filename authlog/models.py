@@ -9,8 +9,8 @@ ACTION_TYPE_T = ((1,'VIEW_CHANGE'), (2,'SUBMIT_CHANGE'), (3,'VIEW_DELETE'), (4,'
 class Access(models.Model):
     user = models.CharField(max_length=30, blank=True, null=True)
     user_agent = models.CharField(max_length=255, blank=True, null=True)
-    ip_address = models.IPAddressField('IP Address', blank=True, null=True)
-    ip_forward = models.IPAddressField('IP Forward Address', blank=True, null=True)
+    ip_address = models.CharField('IP Address', max_length=255, blank=True, null=True)
+    ip_forward = models.CharField('IP Forward Address', max_length=255, blank=True, null=True)
     get_data = models.TextField('GET Data', blank=True, null=True)
     post_data = models.TextField('POST Data', blank=True, null=True)
     http_accept = models.CharField('HTTP Accept', max_length=255, blank=True, null=True)
@@ -28,8 +28,8 @@ class Access(models.Model):
 class AccessPage(models.Model):
     user = models.CharField(max_length=30, blank=True, null=True)
     user_agent = models.CharField(max_length=255, blank=True, null=True)
-    ip_address = models.IPAddressField('IP Address', blank=True, null=True)
-    ip_forward = models.IPAddressField('IP Forward Address', blank=True, null=True)
+    ip_address = models.CharField('IP Address', max_length=255, blank=True, null=True)
+    ip_forward = models.CharField('IP Forward Address', max_length=255, blank=True, null=True)
     get_data = models.TextField('GET Data', blank=True, null=True)
     post_data = models.TextField('POST Data', blank=True, null=True)
     http_accept = models.CharField('HTTP Accept', max_length=255, blank=True, null=True)
