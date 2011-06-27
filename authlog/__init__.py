@@ -2,7 +2,7 @@
 # http://code.google.com/p/django-axes/
 from django.conf import settings
 
-VERSION = (0, 0, 3, '')
+VERSION = (0, 0, 4, '')
 
 def get_version():
     return '%s.%s.%s-%s' % VERSION
