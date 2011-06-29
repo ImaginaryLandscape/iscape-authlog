@@ -8,12 +8,10 @@ class LogAdminMiddleware(object):
     def __init__(self, *args, **kwargs):
         super(LogAdminMiddleware, self).__init__(*args, **kwargs)
 
-        # watch the admin login page
-        admin.site.login = watch_login(admin.site.login)
-
-        # and the regular auth login page
+        # auth login page
         auth_views.login = watch_login(auth_views.login)
 
+        # watch admin views
         ModelAdmin.change_view = watch_view(ModelAdmin.change_view,)
         ModelAdmin.changelist_view = watch_view(ModelAdmin.changelist_view,)
         ModelAdmin.add_view = watch_view(ModelAdmin.add_view,)
