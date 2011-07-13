@@ -50,6 +50,10 @@ def watch_login(func):
 
         return response
 
+    if hasattr(func, 'is_decorated_login'):
+        return func
+    
+    decorated_login.is_decorated_login = True
     return decorated_login
 
 
