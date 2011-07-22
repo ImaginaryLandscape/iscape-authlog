@@ -1,0 +1,12 @@
+*.mo
+*.egg-info
+*.egg
+*.EGG
+*.EGG-INFO
+build
+dist
+.hg
+.bzr
+.svn
+*.pyc
+*.pyo
