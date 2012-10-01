@@ -182,11 +182,17 @@ def watch_view(func):
                 if first_arg:
                     if current_path == reverse('admin:%s_%s_change' % (app, model), args=(first_arg,)):
                         action.url = current_path
-                        action.atype = models.ACTION_TYPE['SUBMIT_CHANGE'] if posted else models.ACTION_TYPE['VIEW_CHANGE']
+                        if posted:
+                            action.atype = models.ACTION_TYPE['SUBMIT_CHANGE'] 
+                        else:
+                            action.atype = models.ACTION_TYPE['VIEW_CHANGE']
                         break
                     elif current_path == reverse('admin:%s_%s_delete' % (app, model), args=(first_arg,)):
                         action.url = current_path
-                        action.atype = models.ACTION_TYPE['SUBMIT_DELETE'] if posted else models.ACTION_TYPE['VIEW_DELETE']
+                        if posted:
+                            action.atype = models.ACTION_TYPE['SUBMIT_DELETE'] 
+                        else:
+                            action.atype = models.ACTION_TYPE['VIEW_DELETE']
                         break
                     elif current_path == reverse('admin:%s_%s_history' % (app, model), args=(first_arg,)):
                         action.url = current_path
@@ -199,7 +205,10 @@ def watch_view(func):
                         break
                     elif current_path == reverse('admin:%s_%s_add' % (app, model),):
                         action.url = current_path
-                        action.atype = models.ACTION_TYPE['VIEW_ADD'] if posted else models.ACTION_TYPE['SUBMIT_ADD']
+                        if posted:
+                            action.atype = models.ACTION_TYPE['VIEW_ADD'] 
+                        else:
+                            action.atype = models.ACTION_TYPE['SUBMIT_ADD']
                         break
 
             except NoReverseMatch:
