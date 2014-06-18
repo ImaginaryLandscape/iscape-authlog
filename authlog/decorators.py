@@ -138,6 +138,12 @@ def watch_view(func):
             request = args[0]
         except:
             request = None   # should never get here
+
+        if not request:
+            try:
+                request = kwargs.get('request', None)
+            except:
+                request = None
             user, ip, path, accept, ua, get, post = ('None', '', '<unknown>', '<unknown>', '<unknown>', '', '')
             current_path = '/'
         else:
