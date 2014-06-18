@@ -77,7 +77,6 @@ def login_check_request(request, login_unsuccessful):
         login_status = "Fail"
 
         user = 'None'
-        print "BAD LOGIN"
         if authlog.AUTHLOG_SAVE_BAD_LOGINS:
             access = models.Access.objects.create(
                user=user,
@@ -92,7 +91,6 @@ def login_check_request(request, login_unsuccessful):
         return_status = False
     else:
         login_status = "Pass"
-        print "GOOD LOGIN"
         user = request.user
 
         if authlog.AUTHLOG_SAVE_GOOD_LOGINS:
