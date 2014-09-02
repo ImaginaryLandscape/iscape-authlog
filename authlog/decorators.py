@@ -1,7 +1,7 @@
 import logging
-from datetime import datetime, timedelta
+# from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse, NoReverseMatch
-from authlog  import models
+from authlog import models
 import authlog
 
 log = logging.getLogger(authlog.AUTHLOG_LOGGER)
@@ -65,7 +65,7 @@ def login_check_request(request, login_unsuccessful):
     path = request.META.get('PATH_INFO', '<unknown>')[:255]
     accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
     ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
-    time = datetime.now()
+    # time = datetime.now()
     get = query2str(request.GET.items())
 
     if authlog.AUTHLOG_SAVE_LOGIN_POST_DATA:
@@ -78,16 +78,15 @@ def login_check_request(request, login_unsuccessful):
 
         user = 'None'
         if authlog.AUTHLOG_SAVE_BAD_LOGINS:
-            access = models.Access.objects.create(
-               user=user,
-               user_agent=ua,
-               ip_address=ip,
-               ip_forward=ip_forward,
-               get_data=get,
-               post_data=post,
-               http_accept=accept,
-               path_info=path,
-            )
+            access = models.Access.objects.create(user=user,
+                                                user_agent=ua,
+                                                ip_address=ip,
+                                                ip_forward=ip_forward,
+                                                get_data=get,
+                                                post_data=post,
+                                                http_accept=accept,
+                                                path_info=path,
+                                                )
         return_status = False
     else:
         login_status = "Pass"
@@ -126,13 +125,16 @@ class ActionInfo(object):
 
 
 def watch_view(func):
-
+    print '***[step into watch_view]***'
     def decorated_view(request_func, *args, **kwargs):
+        print '####[step into decorated view]####'
         response = func(request_func, *args, **kwargs)
         posted = False
 
         if func.__name__ == 'decorated_view':
             return response
+
+        # print 'args0', args[0]
 
         try:
             request = args[0]
@@ -164,7 +166,7 @@ def watch_view(func):
             post = "POST data was submitted"
 
         tracked_models = get_tracked_models()
-        #tracked_urls = []
+        # tracked_urls = []
 
         action = ActionInfo()
 
@@ -207,7 +209,8 @@ def watch_view(func):
                         break
 
             except NoReverseMatch:
-                pass  # should only get here if tracked_models is wrong (no view associated)
+                # pass  # should only get here if tracked_models is wrong (no view associated)
+                raise NoReverseMatch
 
         if action.is_complete():
             models.AccessPage.objects.create(
@@ -218,8 +221,8 @@ def watch_view(func):
 
         return response
 
-    if hasattr(func, 'is_decorated_view'):
-        return func
+    # if hasattr(func, 'is_decorated_view'):
+        # return func
 
-    decorated_view.is_decorated_view = True
+    # decorated_view.is_decorated_view = True
     return decorated_view
