@@ -125,16 +125,12 @@ class ActionInfo(object):
 
 
 def watch_view(func):
-    print '***[step into watch_view]***'
     def decorated_view(request_func, *args, **kwargs):
-        print '####[step into decorated view]####'
         response = func(request_func, *args, **kwargs)
         posted = False
 
         if func.__name__ == 'decorated_view':
             return response
-
-        # print 'args0', args[0]
 
         try:
             request = args[0]
