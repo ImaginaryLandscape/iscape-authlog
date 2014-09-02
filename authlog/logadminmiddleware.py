@@ -14,7 +14,6 @@ ModelAdmin.delete_view = watch_view(ModelAdmin.delete_view)
 class LogAdminMiddleware(object):
 
     def process_request(self, request):
-        view, args, kwargs = resolve(request.path)
         auth_views.login = watch_login(auth_views.login)
         #Admin now uses site.login for handling admin login request
         site.login = watch_login(site.login)
