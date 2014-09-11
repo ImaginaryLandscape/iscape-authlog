@@ -61,7 +61,7 @@ def watch_login(func):
 
 def login_check_request(request, login_unsuccessful):
     ip = request.META.get('REMOTE_ADDR', '')[:255]
-    ip_forward = request.META.get('X-FORWARDED-FOR', '')[:255]
+    ip_forward = request.META.get('HTTP_X_FORWARDED_FOR', '')[:255]
     path = request.META.get('PATH_INFO', '<unknown>')[:255]
     accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
     ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
@@ -148,7 +148,7 @@ def watch_view(func):
             current_path = request.path_info
             user = request.user
             ip = request.META.get('REMOTE_ADDR', '')[:255]
-            ip_forward = request.META.get('X-FORWARDED-FOR', '')[:255]
+            ip_forward = request.META.get('HTTP_X_FORWARDED_FOR', '')[:255]
             path = request.META.get('PATH_INFO', '<unknown>')[:255]
             accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
             ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
