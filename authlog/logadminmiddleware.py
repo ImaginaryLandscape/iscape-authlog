@@ -1,15 +1,16 @@
+from authlog.decorators import watch_login, watch_view
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.contrib.admin import site
 # from django.contrib.admin.sites import ModelAdmin
 from django.contrib.admin.options import ModelAdmin
-from authlog.decorators import watch_login, watch_view
+from django.contrib.auth import views as auth_views
 
 # watch admin views; Move outsite the function because Django create admin objects during initiating
 ModelAdmin.change_view = watch_view(ModelAdmin.change_view)
 ModelAdmin.changelist_view = watch_view(ModelAdmin.changelist_view)
 ModelAdmin.add_view = watch_view(ModelAdmin.add_view)
 ModelAdmin.delete_view = watch_view(ModelAdmin.delete_view)
+
 
 class LogAdminMiddleware(object):
 

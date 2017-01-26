@@ -78,15 +78,16 @@ def login_check_request(request, login_unsuccessful):
 
         user = 'None'
         if authlog.AUTHLOG_SAVE_BAD_LOGINS:
-            access = models.Access.objects.create(user=user,
-                                                user_agent=ua,
-                                                ip_address=ip,
-                                                ip_forward=ip_forward,
-                                                get_data=get,
-                                                post_data=post,
-                                                http_accept=accept,
-                                                path_info=path,
-                                                )
+            access = models.Access.objects.create(
+                user=user,
+                user_agent=ua,
+                ip_address=ip,
+                ip_forward=ip_forward,
+                get_data=get,
+                post_data=post,
+                http_accept=accept,
+                path_info=path,
+            )
         return_status = False
     else:
         login_status = "Pass"

@@ -6,9 +6,10 @@ ACTION_TYPE.update(dict(VIEW_CHANGE=1, SUBMIT_CHANGE=2, VIEW_DELETE=3,
                         SUBMIT_DELETE=4, VIEW_HISTORY=5, VIEW_LIST=6,
                         VIEW_ADD=7, SUBMIT_ADD=8, DOWNLOAD_CSV=9))
 
-ACTION_TYPE_T = ((0, 'OTHER'), (1, 'VIEW_CHANGE'), (2, 'SUBMIT_CHANGE'), (3, 'VIEW_DELETE'),
-                 (4, 'SUBMIT_DELETE'), (5, 'VIEW_HISTORY'), (6, 'VIEW_LIST'),
-                 (7, 'VIEW_ADD'), (8, 'SUBMIT_ADD'), (9, 'DOWNLOAD_CSV'))
+ACTION_TYPE_T = (
+    (0, 'OTHER'), (1, 'VIEW_CHANGE'), (2, 'SUBMIT_CHANGE'), (3, 'VIEW_DELETE'),
+    (4, 'SUBMIT_DELETE'), (5, 'VIEW_HISTORY'), (6, 'VIEW_LIST'),
+    (7, 'VIEW_ADD'), (8, 'SUBMIT_ADD'), (9, 'DOWNLOAD_CSV'))
 
 
 class Access(models.Model):

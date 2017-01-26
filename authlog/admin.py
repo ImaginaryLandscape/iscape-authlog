@@ -1,7 +1,7 @@
-from django.contrib import admin
 from authlog.models import Access, AccessPage
-
 from django import forms
+from django.contrib import admin
+
 
 class ReadOnlyWidget(forms.Widget):
     def __init__(self, original_value, display_value):
@@ -18,6 +18,7 @@ class ReadOnlyWidget(forms.Widget):
     def value_from_datadict(self, data, files, name):
         return self.original_value
 
+
 class ReadOnlyAdminFields(object):
     def get_form(self, request, obj=None):
         form = super(ReadOnlyAdminFields, self).get_form(request, obj)
@@ -27,26 +28,31 @@ class ReadOnlyAdminFields(object):
                 if field_name in form.base_fields:
 
                     if hasattr(obj, 'get_%s_display' % field_name):
-                        display_value = getattr(obj, 'get_%s_display' % field_name)()
+                        display_value = getattr(
+                            obj, 'get_%s_display' % field_name)()
                     else:
                         display_value = None
 
-                    form.base_fields[field_name].widget = ReadOnlyWidget(getattr(obj, field_name, ''), display_value)
+                    form.base_fields[field_name].widget = ReadOnlyWidget(
+                        getattr(obj, field_name, ''), display_value)
                     form.base_fields[field_name].required = False
 
         return form
 
 
-
 class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','login_time', 'ip_address', 'ip_forward', 'get_path_info_link', )
-    list_filter = ['user','login_time', 'ip_address', ]
-    search_fields = ['user','ip_address', 'user_agent', 'path_info']
+    list_display = (
+        'user', 'login_time', 'ip_address', 'ip_forward',
+        'get_path_info_link', )
+    list_filter = ['user', 'login_time', 'ip_address', ]
+    search_fields = ['user', 'ip_address', 'user_agent', 'path_info']
     date_hierarchy = 'login_time'
-    readonly = ['user','ip_address', 'ip_forward', 'user_agent', 'path_info','get_data','post_data','http_accept',]
+    readonly = [
+        'user', 'ip_address', 'ip_forward', 'user_agent',
+        'path_info', 'get_data', 'post_data', 'http_accept', ]
     fieldsets = (
         (None, {
-            'fields': ('user','path_info',)
+            'fields': ('user', 'path_info',)
         }),
         ('Form Data', {
             'fields': ('get_data', 'post_data')
@@ -58,7 +64,7 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
     def get_actions(self, request):
         return None
- 
+
     def has_add_permission(self, request, obj=None):
         return False
 
@@ -72,15 +78,19 @@ class AccessAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
 
 class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
-    list_display = ('user','access_time', 'ip_address', 'ip_forward', 'get_path_info_link','action_type', )
-    list_filter = ['user','access_time', 'ip_address', 'action_type',]
-    search_fields = ['user','ip_address', 'ip_forward', 'user_agent', 'path_info']
+    list_display = (
+        'user', 'access_time', 'ip_address', 'ip_forward',
+        'get_path_info_link', 'action_type', )
+    list_filter = [
+        'user', 'access_time', 'ip_address', 'action_type', ]
+    search_fields = ['user', 'ip_address', 'ip_forward', 'user_agent', 'path_info']
     date_hierarchy = 'access_time'
-    readonly = ['user','ip_address', 'ip_forward', 'user_agent',
-                'path_info','get_data','post_data','http_accept','action_type']
+    readonly = [
+        'user', 'ip_address', 'ip_forward', 'user_agent',
+        'path_info', 'get_data', 'post_data', 'http_accept', 'action_type']
     fieldsets = (
         (None, {
-            'fields': ('user','path_info','action_type',)
+            'fields': ('user', 'path_info', 'action_type',)
         }),
         ('Form Data', {
             'fields': ('get_data', 'post_data')
@@ -92,7 +102,7 @@ class AccessPageAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
 
     def get_actions(self, request):
         return None
- 
+
     def has_add_permission(self, request, obj=None):
         return False
 
