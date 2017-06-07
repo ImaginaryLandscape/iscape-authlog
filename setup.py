@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Authlog",
-    version="0.9.0",
+    version="0.9.1",
     author="Joe Jasinski",
     author_email="jjasinski@imagescape.com",
     url="http://www.imagescape.com",
