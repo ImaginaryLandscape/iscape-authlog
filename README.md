@@ -1,4 +1,5 @@
 Requires Django 1.7+
+Supports Python 2.6+ to 3
 
 ## Install
 

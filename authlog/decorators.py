@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import logging
 # from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse, NoReverseMatch
@@ -66,10 +67,10 @@ def login_check_request(request, login_unsuccessful):
     accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
     ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
     # time = datetime.now()
-    get = query2str(request.GET.items())
+    get = query2str(list(request.GET.items()))
 
     if authlog.AUTHLOG_SAVE_LOGIN_POST_DATA:
-        post = query2str(request.POST.items())
+        post = query2str(list(request.POST.items()))
     else:
         post = 'POST data was submitted'
 
@@ -153,8 +154,8 @@ def watch_view(func):
             path = request.META.get('PATH_INFO', '<unknown>')[:255]
             accept = request.META.get('HTTP_ACCEPT', '<unknown>')[:255]
             ua = request.META.get('HTTP_USER_AGENT', '<unknown>')[:255]
-            get = query2str(request.GET.items())
-            post = query2str(request.POST.items())
+            get = query2str(list(request.GET.items()))
+            post = query2str(list(request.POST.items()))
 
         if request.method == 'POST':
             posted = True

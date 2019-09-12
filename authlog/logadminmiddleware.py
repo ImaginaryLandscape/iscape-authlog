@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from authlog.decorators import watch_login, watch_view
 from django.contrib import admin
 from django.contrib.admin import site

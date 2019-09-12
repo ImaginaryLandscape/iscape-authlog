@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 from setuptools import setup, find_packages
 
 setup(
     name="Authlog",
-    version="0.9.1",
+    version="0.10.1",
     author="Joe Jasinski",
     author_email="jjasinski@imagescape.com",
     url="http://www.imagescape.com",

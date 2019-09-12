@@ -1,6 +1,8 @@
+from __future__ import absolute_import
 from authlog.models import Access, AccessPage
 from django import forms
 from django.contrib import admin
+import six
 
 
 class ReadOnlyWidget(forms.Widget):
@@ -12,8 +14,8 @@ class ReadOnlyWidget(forms.Widget):
 
     def render(self, name, value, attrs=None):
         if self.display_value is not None:
-            return unicode(self.display_value)
-        return unicode(self.original_value)
+            return six.text_type(self.display_value)
+        return six.text_type(self.original_value)
 
     def value_from_datadict(self, data, files, name):
         return self.original_value

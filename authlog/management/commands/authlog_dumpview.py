@@ -1,8 +1,10 @@
+from __future__ import absolute_import
 import csv
 import sys
 import unicodedata
 from authlog.models import AccessPage
 from django.core.management.base import BaseCommand
+import six
 
 CSV_HEADERS = [
     'login_time', 'ip_address', 'ip_forward', 'user', 'path_info', 'user_agent',
@@ -14,7 +16,7 @@ class Command(BaseCommand):
     help = 'Dump the Page View Log to stdout in CSV format.'
 
     def safe_unicode(self, input_string):
-        return unicode(unicodedata.normalize(
+        return six.text_type(unicodedata.normalize(
             'NFKD', input_string).encode('ascii', 'ignore'))
 
     def handle(self, *args, **options):

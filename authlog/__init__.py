@@ -1,5 +1,6 @@
 # used this code as a base
 # http://code.google.com/p/django-axes/
+from __future__ import absolute_import
 from django.conf import settings
 import logging
 import os
