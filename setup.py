@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Authlog",
-    version="0.10.1",
+    version="0.10.1a",
     author="Joe Jasinski",
     author_email="jjasinski@imagescape.com",
     url="http://www.imagescape.com",
@@ -16,6 +16,6 @@ setup(
     install_requires=[],
     zip_safe=False,
     classifiers=[
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
     ]
 )
