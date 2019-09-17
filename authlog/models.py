@@ -24,7 +24,7 @@ class Access(models.Model):
     path_info = models.CharField('Path', max_length=255, blank=True, null=True)
     login_time = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Access: %s at %s' % (self.login_time, self.ip_address)
 
     class Meta:
@@ -45,7 +45,7 @@ class AccessPage(models.Model):
     access_time = models.DateTimeField(auto_now_add=True)
     action_type = models.IntegerField(choices=ACTION_TYPE_T, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Access: %s at %s by %s' % (self.access_time, self.ip_address, self.user)
 
     class Meta:
