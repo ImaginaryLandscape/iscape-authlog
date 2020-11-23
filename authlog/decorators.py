@@ -1,7 +1,10 @@
 from __future__ import absolute_import
 import logging
 # from datetime import datetime, timedelta
-from django.core.urlresolvers import reverse, NoReverseMatch
+try:
+    from django.urls import reverse, NoReverseMatch
+except:
+    from django.core.urlresolvers import reverse, NoReverseMatch
 from authlog import models
 import authlog
 
