@@ -12,10 +12,14 @@ ModelAdmin.changelist_view = watch_view(ModelAdmin.changelist_view)
 ModelAdmin.add_view = watch_view(ModelAdmin.add_view)
 ModelAdmin.delete_view = watch_view(ModelAdmin.delete_view)
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
-class LogAdminMiddleware(object):
+class LogAdminMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        auth_views.login = watch_login(auth_views.login)
+        auth_views.LoginView = watch_login(auth_views.LoginView)
         #Admin now uses site.login for handling admin login request
         site.login = watch_login(site.login)
